@@ -7,28 +7,41 @@ class ParkingGarage():
     def takeTicket(self):
         self.tickets.pop()
         self.parkingSpaces.pop()
-        self.currentTicket[self.tickets[-1]+1] = False
+        self.currentTicket[self.tickets[-1]+1] = 'Unpaid'
         print(self.tickets)
         print(self.parkingSpaces)
         print(self.currentTicket)
     
     def payForParking(self):
         while True:
-            payment =  input ("your ticket was $5. Please type 5 to pay")
+            payment =  input ("Your ticket was $5. Please type 5 to pay")
             if payment != str (5):
-                print("please proceed with payment")
-           
-
-            else :  
-                print("Thank you! Have a nice day!")
+                print("Please proceed with payment")
+            else:
+                self.currentTicket[self.tickets[-1]+1] = 'Paid'
+                print(self.currentTicket)
+                print("Thank you! Your ticket has been paid.  You have fifteen to leave the garage.  Have a nice day!")
                 break
-    
-
-
-
+  
     def leaveGarage(self):
-        self.tickets.append(self.tickets[-1] + 1)
-        print(self.tickets)
+        while True:
+            if self.currentTicket[self.tickets[-1]+1] == 'Paid':
+                self.tickets.append(self.tickets[-1] + 1)
+                self.currentTicket.popitem()
+                print('The garage door is opening.  You are free to leave.  ')
+                print(self.currentTicket)
+                print(self.tickets)
+                break
+            else:
+                while True:
+                    payment =  input ("Your ticket was $5. Please type 5 to pay")
+                    if payment != str (5):
+                        print("Please proceed with payment")
+                    else:
+                        self.currentTicket[self.tickets[-1]+1] = 'Paid'
+                        print(self.currentTicket)
+                        print("Thank you! Your ticket has been paid.  You have fifteen minutes to leave the garage.  Have a nice day!")
+                        break
 
 
     def run(self):
@@ -40,9 +53,11 @@ class ParkingGarage():
                 self.leaveGarage()
             elif self.car.lower() == "pay":
                 self.payForParking()
-            else:
+            elif self.car.lower() == "quit":
                 print("Thank you for using our Garage!")
                 break
+            else:
+                print("Invalid entry.  Please Try Again.")
 
 
 x = ParkingGarage()
